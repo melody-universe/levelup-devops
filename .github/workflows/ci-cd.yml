@@ -22,6 +22,7 @@ jobs:
           path: packed-solutions
   deploy:
     environment: production
+    if: github.ref == "refs/heads/main"
     needs:
       - build
     runs-on: ubuntu-latest

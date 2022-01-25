@@ -1,0 +1,36 @@
+name: CI / CD
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: microsoft/powerplatform-actions/pack-solution@v0
+        with:
+          solution-file: packed-solutions/con_core.zip
+          solution-folder: solutions/con_core/src
+          solution-type: Both
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packed-solutions
+          path: packed-solutions
+  deploy:
+    environment: production
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: packed-solutions
+      - uses: microsoft/powerplatform-actions/import-solution@v0
+        with:
+          environment-url: ${{ secrets.URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: con_core_managed.zip

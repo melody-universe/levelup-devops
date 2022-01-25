@@ -78,10 +78,19 @@
       </Addresses>
     </Publisher>
     <RootComponents>
+      <RootComponent type="1" schemaName="con_widget" behavior="2" />
       <RootComponent type="62" schemaName="con_Admissions" behavior="0" />
       <RootComponent type="80" schemaName="con_Admissions" behavior="0" />
     </RootComponents>
     <MissingDependencies>
+      <MissingDependency>
+        <Required type="1" schemaName="con_widget" displayName="Widget" solution="con_core (1.0.0.0)" />
+        <Dependent type="1" schemaName="con_widget" displayName="Widget" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="1" schemaName="con_widget" displayName="Widget" solution="con_core (1.0.0.0)" />
+        <Dependent type="2" schemaName="con_submissiondate" displayName="Submission Date" parentSchemaName="con_widget" parentDisplayName="Widget" />
+      </MissingDependency>
       <MissingDependency>
         <Required type="1" schemaName="con_widget" displayName="Widget" solution="con_core (1.0.0.0)" />
         <Dependent type="62" schemaName="con_Admissions" />
@@ -89,6 +98,14 @@
       <MissingDependency>
         <Required type="1" schemaName="con_widget" displayName="Widget" solution="con_core (1.0.0.0)" />
         <Dependent type="80" schemaName="con_Admissions" displayName="Admissions" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="con_name" displayName="Name" parentSchemaName="con_widget" parentDisplayName="Widget" solution="con_core (1.0.0.0)" />
+        <Dependent type="60" displayName="Information" parentDisplayName="Widget" id="{3c001cd8-b466-4932-b4ab-2c204012efe4}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="ownerid" displayName="Owner" parentSchemaName="con_widget" parentDisplayName="Widget" solution="Active" />
+        <Dependent type="60" displayName="Information" parentDisplayName="Widget" id="{3c001cd8-b466-4932-b4ab-2c204012efe4}" />
       </MissingDependency>
       <MissingDependency>
         <Required type="61" schemaName="msdyn_/Images/AppModule_Default_Icon.png" displayName="msdyn_/Images/AppModule_Default_Icon.png" solution="AppModuleWebResources (2.5)" />

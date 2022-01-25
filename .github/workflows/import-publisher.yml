@@ -1,0 +1,38 @@
+name: Import Publisher
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment-url:
+        description: URL to import the Publisher solution into
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: microsoft/powerplatform-actions/pack-solution@v0
+        with:
+          solution-file: packed-solutions/con_publisher.zip
+          solution-folder: publisher
+          solution-type: Unmanaged
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packed-solutions
+          path: packed-solutions
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: packed-solutions
+      - uses: microsoft/powerplatform-actions/import-solution@v0
+        with:
+          environment-url: ${{ github.event.inputs.environment-url }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: con_publisher.zip

@@ -1,0 +1,15 @@
+name: pack-solution
+description: Pack solution
+inputs:
+  name:
+    description: Name of the solution to unpack
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: pack ${{ inputs.name }}
+      uses: microsoft/powerplatform-actions/pack-solution@v0
+      with:
+        solution-file: packed-solutions/${{ inputs.name }}.zip
+        solution-folder: solutions/${{ inputs.name }}/src
+        solution-type: Both

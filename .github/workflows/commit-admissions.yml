@@ -1,0 +1,26 @@
+name: Commit Admissions
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        default: Automated commit
+        description: Message for the commit
+        required: true
+
+jobs:
+  export-unpack-commit:
+    environment: dev-admissions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+      - uses: ./.github/actions/export-unpack-commit
+        with:
+          message: ${{ github.event.inputs.message }}
+          environment-url: ${{ secrets.URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-name: con_admissions

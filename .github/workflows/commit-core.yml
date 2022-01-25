@@ -1,0 +1,47 @@
+name: Commit Core
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        default: Automated commit
+        description: Message for the commit
+        required: true
+
+jobs:
+  export-unpack-commit:
+    environment: dev-core
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+      - uses: microsoft/powerplatform-actions/export-solution@v0
+        with:
+          environment-url: ${{ secrets.URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-output-file: con_core.zip
+          solution-name: con_core
+      - uses: microsoft/powerplatform-actions/export-solution@v0
+        with:
+          environment-url: ${{ secrets.URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-output-file: con_core_managed.zip
+          solution-name: con_core
+          managed: true
+      - name: Clear existing solution folder
+        run: |
+          rm -rf solutions/con_core/src
+        shell: bash
+      - uses: microsoft/powerplatform-actions/unpack-solution@v0
+        with:
+          solution-file: con_core.zip
+          solution-folder: solutions/con_core/src
+          solution-type: Both
+      - uses: EndBug/add-and-commit@v8
+        with:
+          message: ${{ github.event.inputs.message }}

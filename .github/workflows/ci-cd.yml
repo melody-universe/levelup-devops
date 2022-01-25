@@ -6,6 +6,10 @@ on:
       - solutions/**
   workflow_dispatch:
 
+concurrency:
+  group: production
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
